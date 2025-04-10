@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DemoFunctionApp
 {
-    public class HttpExample
+    public class HttpTriggerFunction
     {
-        private readonly ILogger<HttpExample> _logger;
+        private readonly ILogger<HttpTriggerFunction> _logger;
 
-        public HttpExample(ILogger<HttpExample> logger)
+        public HttpTriggerFunction(ILogger<HttpTriggerFunction> logger)
         {
             _logger = logger;
         }
 
-        [Function("HttpExample")]
+        [Function("HttpTriggerFunction")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
