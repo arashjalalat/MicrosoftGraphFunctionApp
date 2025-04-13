@@ -48,7 +48,7 @@ namespace MicrosoftGraphFunctionApp
 
             TokenCredential? credential = new AzureCliCredential();
             var graphClient = new GraphServiceClient(credential);
-            var user = new Microsoft.Graph.Models.User();
+            Microsoft.Graph.Models.User user;
 
             if (environment == "Development"){
                 user = await graphClient.Me.GetAsync();
