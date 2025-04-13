@@ -20,8 +20,7 @@ namespace MicrosoftGraphFunctionApp
             _logger.LogInformation($"C# HTTP trigger function executed at: {DateTime.Now}");
             var requestHeaderClientPrincipalId = req.Headers["X-MS-CLIENT-PRINCIPAL-ID"].ToString();
 
-            var userProfile = string.Empty;
-
+            string? userProfile;
             try
             {
                 userProfile = await GetUserProfileAsync(requestHeaderClientPrincipalId);
