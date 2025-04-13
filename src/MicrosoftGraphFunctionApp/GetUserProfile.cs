@@ -30,6 +30,10 @@ namespace MicrosoftGraphFunctionApp
             catch (Exception ex)
             {
                 _logger.LogError($"Error fetching user profile: {ex.Message}");
+                return new ObjectResult(new { error = "An error occurred while fetching the user profile." })
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
             }
 
             return new OkObjectResult(userProfile);
