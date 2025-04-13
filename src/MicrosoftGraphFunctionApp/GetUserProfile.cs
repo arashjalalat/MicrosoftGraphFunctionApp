@@ -10,14 +10,9 @@ using Microsoft.Graph;
 
 namespace MicrosoftGraphFunctionApp
 {
-    public class GetUserProfile
+    public class GetUserProfile(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetUserProfile(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetUserProfile>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetUserProfile>();
 
         [Function("GetUserProfile")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
@@ -40,7 +35,7 @@ namespace MicrosoftGraphFunctionApp
             return new OkObjectResult(userProfile);
         }
 
-        private async Task<string> GetUserProfileAsync(string? userId)
+        private static async Task<string> GetUserProfileAsync(string? userId)
         {
             // Get the environment variable to determine if we are in Development (local) or Production (Azure)
             // and set the appropriate credential for Graph API access.
@@ -51,13 +46,14 @@ namespace MicrosoftGraphFunctionApp
             Microsoft.Graph.Models.User user;
 
             if (environment == "Development"){
-                user = await graphClient.Me.GetAsync();
+                var me = await graphClient.Me.GetAsync() ?? throw new InvalidOperationException("Failed to retrieve the user profile.");
+                user = me;
             }
             else
             {
                 credential = new ManagedIdentityCredential();
                 graphClient = new GraphServiceClient(credential);
-                user = await graphClient.Users[userId].GetAsync();
+                user = await graphClient.Users[userId].GetAsync() ?? throw new InvalidOperationException("Failed to retrieve the user profile.");
             }
 
             var userProfileJson = JsonSerializer.Serialize(user, new JsonSerializerOptions
