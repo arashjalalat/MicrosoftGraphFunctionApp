@@ -22,8 +22,7 @@ namespace MicrosoftGraphFunctionApp
         [Function("GetUserProfile")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
-            _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-
+            _logger.LogInformation($"C# HTTP trigger function executed at: {DateTime.Now}");
             var requestHeaderClientPrincipalId = req.Headers["X-MS-CLIENT-PRINCIPAL-ID"].ToString();
 
             var userProfile = string.Empty;
