@@ -20,7 +20,7 @@ This project is an Azure Function app that retrieves user profiles from Microsof
 1. Clone the repository:
     ```bash
     git clone <repository-url>
-    cd github-copilot-review-playground
+    cd MicrosoftGraphFunctionApp
     ```
 
 2. Install dependencies:
